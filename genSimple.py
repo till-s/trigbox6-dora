@@ -18,7 +18,7 @@ class GenSimple(object):
 
     print( '{% extends "simple.html" %}', file = self._fd )
     print( '{% block content         %}', file = self._fd )
-    print( '<table id="miscTable">',      file = self._fd )
+    print( '<table id="miscTable" class="miscTable">', file = self._fd )
     print( '<caption>General Configuration</caption>', file = self._fd )
     print( '<tr> <td> <a href="/"     class="realLink">General Info</a> </td> </tr>', file = self._fd )
     print( '<tr> <td> <a href="/tree" class="realLink">Expert Panel</a> </td> </tr>', file = self._fd )
@@ -29,8 +29,8 @@ class GenSimple(object):
     print( '	<label class="configButton">Load Configuration<input type="file" class="loadConfig"> </label>', file = self._fd )
     print( '</td> </tr>',                 file = self._fd )
     print( '<tr>',                        file = self._fd )
-    self.genTab(".*TimingFrameRx/{}", [ ["ClkSel", ""], ["FidCount", ""] ])
-    self.genTab("/{}$",               [ ["LoopBackMode", ""]             ])
+    self.genTab(".*TimingFrameRx/{}", [ ["ClkSel",       ' id="ClkSel" class=selOpt"'], ["FidCount", ""] ])
+    self.genTab("/{}$",               [ ["LoopBackMode", ' id="LoopBackMode" class="selOpt"']             ])
     print( '</tr>',                       file = self._fd )
     print( '</table>',                    file = self._fd )
     nams        = []
