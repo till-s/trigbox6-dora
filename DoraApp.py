@@ -7,6 +7,7 @@ import ClockSwitcher
 import re
 import os
 import YamlFixup
+import genSimple
 from   flask import render_template
 
 deviceTopName = "Timing-Trigger Box 7"
