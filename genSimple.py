@@ -4,16 +4,18 @@ import sys
 import jinja2
 import io
 
-j2env = jinja2.Environment(
-         loader     = jinja2.PackageLoader('genSimple','templates'),
-         autoescape = jinja2.select_autoescape(['html', 'xml'])
-       )
-
 class GenSimple(object):
   def __init__(self, theDb, tmplName):
     self._level = 0
     self._db    = theDb
     self._fd    = io.open(tmplName, "w")
+    self.j2env_ = jinja2.Environment(
+         loader     = jinja2.ChoiceLoader([
+                         jinja2.PackageLoader('dora','templates')
+                      ]),
+         autoescape = jinja2.select_autoescape(['html', 'xml'])
+       )
+
     print( '{% extends "simple.html" %}', file = self._fd )
     print( '{% block content         %}', file = self._fd )
     print( '<table id="miscTable">',      file = self._fd )
@@ -28,6 +30,7 @@ class GenSimple(object):
     print( '</td> </tr>',                 file = self._fd )
     print( '<tr>',                        file = self._fd )
     self.genTab(".*TimingFrameRx/{}", [ ["ClkSel", ""], ["FidCount", ""] ])
+    self.genTab("/{}$",               [ ["LoopBackMode", ""]             ])
     print( '</tr>',                       file = self._fd )
     print( '</table>',                    file = self._fd )
     nams        = []
@@ -97,7 +100,7 @@ class GenSimple(object):
           if None == withLab or not withLab:
             nam = None
         desc = None
-        elem = j2env.get_template('elem.html')
+        elem = self.j2env_.get_template('elem.html')
         clss += " toolTipper colmn{}".format(colOff + i)
         print( elem.render(
                             name    = nam,
