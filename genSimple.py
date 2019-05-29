@@ -11,7 +11,8 @@ class GenSimple(object):
     self._fd    = io.open(tmplName, "w")
     self.j2env_ = jinja2.Environment(
          loader     = jinja2.ChoiceLoader([
-                         jinja2.PackageLoader('dora','templates')
+                         jinja2.PackageLoader('dora',   'templates'),
+                         jinja2.PackageLoader('DoraApp','templates')
                       ]),
          autoescape = jinja2.select_autoescape(['html', 'xml'])
        )
