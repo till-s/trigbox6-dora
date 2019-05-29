@@ -8,12 +8,16 @@ import re
 import os
 import YamlFixup
 import genSimple
-from   flask import render_template
+from   flask import render_template, send_from_directory
 
 deviceTopName = "Timing-Trigger Box 7"
 
 def TboxSimplePage():
   return render_template(simpleTemplateName, deviceTopName = deviceTopName)
+
+def TboxStatic(path):
+  prefix = os.path.dirname(__file__) + '/static/'
+  return send_from_directory(prefix, path)
 
 class YamlFixup(YamlFixup.YamlFixup):
   def __init__(self, optDict, argList):
@@ -62,6 +66,7 @@ class DoraApp(object):
   def initApp(self, cpswRoot, flaskApp):
     self.flaskApp_ = flaskApp
     self.flaskApp_.add_url_rule('/simple', 'simple', TboxSimplePage)
+    self.flaskApp_.add_url_rule('/simple/static/<path:path>', 'simpleStatic', TboxStatic)
     print("URL RULE ADDED")
     if self.optDict_["UseNullDev"]:
       return
