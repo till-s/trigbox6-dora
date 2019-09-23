@@ -70,7 +70,8 @@ class DoraApp(object):
     print("URL RULE ADDED")
     if self.optDict_["UseNullDev"]:
       return
-    self.confDir_  = "../yaml/"
+    self.yamlDir_  = os.path.dirname( self.optDict_["YamlFileName"] ) + "/"
+    self.confDir_  = self.yamlDir_ + "config/"
     self.cpswRoot_ = cpswRoot
     r              = self.cpswRoot_
     pg             = pathGrep.PathGrep( r, asPath=True)
@@ -90,6 +91,9 @@ class DoraApp(object):
   def getDebugProbesPath(self):
     if self.optDict_["UseNullDev"]:
       return None
+    ltxp = self.yamlDir_ + "debug_nets.ltx"
+    if os.path.isfile( ltxp ):
+      return ltxp
     rp = os.path.realpath("/lib/firmware/zynq-firmware.bin")
     ltxp = re.sub("[.]bin([.]swab)?", ".ltx", rp)
     if os.path.isfile( ltxp ):
